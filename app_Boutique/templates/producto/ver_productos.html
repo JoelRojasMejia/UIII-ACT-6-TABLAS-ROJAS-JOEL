@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 2rem;">
+        <h2 style="color: #ff4d94;">Lista de Productos</h2>
+        <a href="{% url 'agregar_producto' %}" class="btn btn-primary">Agregar Producto</a>
+    </div>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Categoría</th>
+                <th>Talla</th>
+                <th>Color</th>
+                <th>Stock</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in productos %}
+            <tr>
+                <td>{{ producto.id }}</td>
+                <td>{{ producto.nombre }}</td>
+                <td>${{ producto.precio }}</td>
+                <td>{{ producto.get_categoria_display }}</td>
+                <td>{{ producto.talla|default:"-" }}</td>
+                <td>{{ producto.color }}</td>
+                <td>{{ producto.stock }}</td>
+                <td>
+                    <span style="color: {% if producto.disponible %}green{% else %}red{% endif %};">
+                        {% if producto.disponible %}Disponible{% else %}No Disponible{% endif %}
+                    </span>
+                </td>
+                <td>
+                    <a href="{% url 'actualizar_producto' producto.id %}" class="btn btn-warning" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Editar</a>
+                    <a href="{% url 'borrar_producto' producto.id %}" class="btn btn-danger" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Borrar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

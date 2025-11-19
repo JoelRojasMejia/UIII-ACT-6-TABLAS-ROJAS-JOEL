@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <h2>⭐ Todas las Reseñas</h2>
+    <p>Visualización centralizada de todas las reseñas de productos.</p>
+
+    {% if resenas %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Usuario</th>
+                <th>Calificación</th>
+                <th>Comentario</th>
+                <th>Fecha</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for resena in resenas %}
+            <tr>
+                <td><a href="{% url 'detalle_producto' resena.producto.id %}">{{ resena.producto.nombre }}</a></td>
+                <td>{{ resena.usuario.nombre }}</td>
+                <td>{{ resena.get_calificacion_display }}</td>
+                <td>{{ resena.comentario|truncatechars:50|default:"(Sin comentario)" }}</td>
+                <td>{{ resena.fecha_resena|date:"Y-m-d" }}</td>
+                <td>
+                    <a href="{% url 'borrar_resena' resena.id %}" class="btn btn-danger">Borrar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="alert">
+        <p>No hay reseñas registradas aún.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

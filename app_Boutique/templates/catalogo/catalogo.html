@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <h2>Catálogo de Productos BOUTIQUE</h2>
+    
+    <!-- Filtros por categoría -->
+    <div style="margin-bottom: 2rem;">
+        <form method="get" class="form-inline">
+            <label for="categoria" class="form-label">Filtrar por categoría:</label>
+            <select name="categoria" id="categoria" class="form-control" style="width: auto; display: inline-block; margin-left: 1rem;" onchange="this.form.submit()">
+                <option value="">Todas las categorías</option>
+                {% for categoria_id, categoria_nombre in categorias %}
+                    <option value="{{ categoria_id }}" {% if categoria_seleccionada == categoria_id %}selected{% endif %}>
+                        {{ categoria_nombre }}
+                    </option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+
+    <!-- Grid de productos -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem;">
+        {% for producto in productos %}
+        <div class="card" style="padding: 1rem; text-align: center;">
+            {% if producto.imagen %}
+                <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px; margin-bottom: 1rem;">
+            {% else %}
+                <div style="width: 100%; height: 200px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: 10px; margin-bottom: 1rem;">
+                    <span>Sin imagen</span>
+                </div>
+            {% endif %}
+            
+            <h3>{{ producto.nombre }}</h3>
+            <p style="color: #666; margin-bottom: 0.5rem;">{{ producto.categoria|title }}</p>
+            <p style="font-size: 1.2rem; font-weight: bold; color: #ff4d94; margin-bottom: 0.5rem;">
+                ${{ producto.precio }}
+            </p>
+            <p style="margin-bottom: 1rem;">
+                <strong>Stock:</strong> {{ producto.stock }} unidades
+            </p>
+            
+            <div style="display: flex; gap: 0.5rem; justify-content: center;">
+                <a href="{% url 'detalle_producto' producto.id %}" class="btn btn-primary">Ver Detalles</a>
+                <a href="{% url 'crear_pedido_directo' producto.id %}" class="btn" style="background: #00cec9; color: white;">Comprar</a>
+            </div>
+        </div>
+        {% empty %}
+        <div class="card" style="text-align: center; padding: 2rem;">
+            <h3>No hay productos disponibles</h3>
+            <p>No se encontraron productos en esta categoría.</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div style="margin-top: 2rem; text-align: center;">
+        <a href="{% url 'crear_pedido_multiple' %}" class="btn btn-primary">Crear Pedido Múltiple</a>
+    </div>
+</div>
+{% endblock %}

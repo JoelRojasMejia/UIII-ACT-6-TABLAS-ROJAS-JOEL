@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <a href="{% url 'catalogo_productos' %}" class="btn" style="background: #6c757d; color: white; margin-bottom: 1rem;">← Volver al Catálogo</a>
+    
+    <div style="display: flex; gap: 2rem; border-bottom: 1px solid #eee; padding-bottom: 2rem; margin-bottom: 2rem;">
+        
+        <div style="flex: 1 1 30%;">
+            {% if producto.imagen %}
+                <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+            {% else %}
+                <img src="{% static 'images/no-image.jpg' %}" alt="Sin imagen disponible" style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+            {% endif %}
+        </div>
+
+        <div style="flex: 1 1 70%;">
+            <h1>{{ producto.nombre }}</h1>
+            <p style="font-size: 1.5rem; color: #e84393; font-weight: bold;">${{ producto.precio }}</p>
+            
+            <p><strong>Categoría:</strong> {{ producto.get_categoria_display }}</p>
+            <p><strong>Stock Disponible:</strong> 
+                <span class="stock-indicator" data-stock="{% if producto.stock > 10 %}high{% elif producto.stock > 0 %}medium{% else %}low{% endif %}">
+                    {{ producto.stock }} unidades
+                </span>
+            </p>
+            
+            <p style="margin-top: 1.5rem;"><strong>Descripción:</strong></p>
+            <p>{{ producto.descripcion|linebreaks }}</p>
+
+            {% if media_calificacion is not None %}
+                <div style="margin-top: 2rem; padding: 1rem; background: #f7f7f7; border-radius: 8px;">
+                    <strong>⭐ Calificación Media:</strong> 
+                    <span style="font-size: 1.2rem; color: #f1c40f;">
+                        {{ media_calificacion|floatformat:1 }} / 5
+                    </span> 
+                    ({{ total_resenas }} reseñas)
+                </div>
+            {% endif %}
+
+            <div style="margin-top: 2rem;">
+                <a href="#" class="btn btn-primary {% if producto.stock <= 0 %}disabled{% endif %}" style="font-size: 1.1rem;">
+                    {% if producto.stock <= 0 %}Producto Agotado{% else %}Añadir al Carrito{% endif %}
+                </a>
+                <a href="{% url 'actualizar_producto' producto.id %}" class="btn btn-warning">Editar Producto</a>
+            </div>
+        </div>
+    </div>
+    
+    <div style="margin-top: 2rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h2>Reseñas de Clientes ({{ total_resenas }})</h2>
+            <a href="{% url 'agregar_resena' producto.id %}" class="btn btn-secondary">✍️ Escribir una Reseña</a>
+        </div>
+        
+        {% if resenas %}
+            {% for resena in resenas %}
+                <div class="review-item" style="border: 1px solid #ddd; padding: 1rem; margin-bottom: 1rem; border-radius: 8px;">
+                    <p style="font-weight: bold; margin-bottom: 0.5rem;">
+                        {{ resena.get_calificacion_display }} - 
+                        <span style="color: #444;">{{ resena.usuario.nombre }}</span>
+                        <small style="color: #999; float: right;">{{ resena.fecha_resena|date:"d M Y" }}</small>
+                    </p>
+                    <p>{{ resena.comentario|default:"(Sin comentario)" }}</p>
+                    <a href="{% url 'borrar_resena' resena.id %}" class="btn btn-danger btn-sm" style="font-size: 0.8rem;">Borrar Reseña</a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="alert">
+                <p>Aún no hay reseñas para este producto. ¡Sé el primero en calificarlo!</p>
+            </div>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <h2 style="color: #ff4757;">⚠️ Confirmar Eliminación de Reseña</h2>
+    <p>¿Estás seguro de que quieres eliminar la reseña del usuario **{{ resena.usuario.nombre }}** para el producto **{{ resena.producto.nombre }}** ({{ resena.get_calificacion_display }})?</p>
+    
+    <form method="post" action="{% url 'borrar_resena' resena.id %}" style="margin-top: 1.5rem;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Sí, Eliminar Reseña</button>
+        <a href="{% url 'ver_resenas' %}" class="btn" style="background: #f8f9fa; color: #333;">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

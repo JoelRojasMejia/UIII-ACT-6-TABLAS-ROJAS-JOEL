@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <a href="{% url 'inicio_boutique' %}" class="btn" style="background: #6c757d; color: white; margin-bottom: 1rem;">← Volver al catálogo</a>
+    
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+        <div>
+            {% if categoria.icono %}
+                <img src="{{ categoria.icono }}" alt="{{ categoria.nombre }}" style="width: 100%; height: 400px; object-fit: cover; border-radius: 10px;">
+            {% else %}
+                <div style="width: 100%; height: 400px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: 10px;">
+                    <span>Imagen no disponible</span>
+                </div>
+            {% endif %}
+        </div>
+        
+        <div>
+            <h2>{{ categoria.nombre }}</h2>
+            <p style="font-size: 2rem; color: #ff4d94; font-weight: bold; margin: 1rem 0;">
+                Popularidad: {{ categoria.popularidad }}
+            </p>
+            
+            <div style="margin-bottom: 1.5rem;">
+                <p><strong>Descripción:</strong> {{ categoria.descripcion|default:"No disponible" }}</p>
+                <p><strong>Edad recomendada:</strong> {{ categoria.edad_recomendada }}</p>
+                <p><strong>Fecha de creación:</strong> {{ categoria.fecha_creacion }}</p>
+            </div>
+            
+            <div style="margin-bottom: 1.5rem;">
+                <h4>Productos en esta categoría:</h4>
+                <ul>
+                    {% for producto in categoria.peliculas.all %}
+                        <li><a href="{% url 'ver_producto' producto.id %}">{{ producto.titulo }}</a></li>
+                    {% empty %}
+                        <li>No hay productos en esta categoría.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,67 @@
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="{% url 'index' %}" class="logo">BOUTIQUE</a>
+        
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="{% url 'index' %}" class="nav-link">Inicio</a>
+            </li>
+            
+            <li class="nav-item">
+                <a href="#" class="nav-link">Usuarios</a>
+                <div class="dropdown-menu">
+                    <a href="{% url 'agregar_usuario' %}">Agregar Usuario</a>
+                    <a href="{% url 'ver_usuarios' %}">Ver Usuarios</a>
+                </div>
+            </li>
+            
+            <li class="nav-item">
+                <a href="#" class="nav-link">Productos</a>
+                <div class="dropdown-menu">
+                    <a href="{% url 'agregar_producto' %}">Agregar Producto</a>
+                    <a href="{% url 'ver_productos' %}">Ver Productos</a>
+                </div>
+            </li>
+            
+            <li class="nav-item">
+                <a href="#" class="nav-link">Catálogo</a>
+                <div class="dropdown-menu">
+                    <a href="{% url 'catalogo_productos' %}">Ver Catálogo</a>
+                    <a href="{% url 'crear_pedido_multiple' %}">Pedido Múltiple</a>
+                </div>
+            </li>
+            
+            <li class="nav-item">
+                <a href="#" class="nav-link">Pedidos</a>
+                <div class="dropdown-menu">
+                    <a href="{% url 'ver_pedidos' %}">Ver Pedidos</a>
+                    <a href="{% url 'crear_pedido_multiple' %}">Crear Pedido</a>
+                </div>
+            </li>
+            
+            <li class="nav-item">
+                <a href="#" class="nav-link">Pagos</a>
+                <div class="dropdown-menu">
+                    <a href="{% url 'agregar_metodo_pago' %}">Agregar Método</a>
+                    <a href="{% url 'ver_metodos_pago' %}">Ver Métodos</a>
+                </div>
+            </li>
+            
+            <li class="nav-item">
+                <a href="#" class="nav-link">Cupones</a>
+                <div class="dropdown-menu">
+                    <a href="{% url 'agregar_cupon_descuento' %}">Agregar Cupón</a>
+                    <a href="{% url 'ver_cupones' %}">Ver Cupones</a>
+                </div>
+            </li>
+            
+            <li class="nav-item">
+                <a href="#" class="nav-link">Reseñas</a>
+                <div class="dropdown-menu">
+                    <a href="{% url 'ver_resenas' %}">Ver Todas las Reseñas</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+

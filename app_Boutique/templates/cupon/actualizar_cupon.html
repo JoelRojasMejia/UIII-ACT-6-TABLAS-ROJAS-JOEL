@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <h2>✏️ Actualizar Cupón: {{ cupon.codigo }}</h2>
+
+    {% if error %}
+        <div class="alert alert-danger" style="background: #f8d7da; color: #721c24;">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    <form method="post" action="{% url 'actualizar_cupon_descuento' cupon.id %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_codigo" class="form-label">Código del Cupón:</label>
+            <input type="text" id="id_codigo" name="codigo" class="form-control" value="{{ cupon.codigo }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="id_descuento" class="form-label">Porcentaje de Descuento:</label>
+            <input type="number" step="0.01" id="id_descuento" name="descuento_porcentaje" class="form-control" value="{{ cupon.descuento_porcentaje }}" required min="0" max="100">
+        </div>
+
+        <div class="form-group">
+            <label for="id_expiracion" class="form-label">Fecha de Expiración (Opcional):</label>
+            <input type="date" id="id_expiracion" name="fecha_expiracion" class="form-control" 
+                   value="{{ cupon.fecha_expiracion|date:'Y-m-d'|default:'' }}">
+        </div>
+
+        <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
+            <input type="checkbox" id="id_activo" name="activo" {% if cupon.activo %}checked{% endif %}>
+            <label for="id_activo" class="form-label" style="margin-bottom: 0;">Activo</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        <a href="{% url 'ver_cupones' %}" class="btn" style="background: #f8f9fa; color: #333;">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

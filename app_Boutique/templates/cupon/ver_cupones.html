@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <h2>🏷️ Lista de Cupones de Descuento</h2>
+    <a href="{% url 'agregar_cupon_descuento' %}" class="btn btn-primary" style="margin-bottom: 1.5rem;">+ Agregar Nuevo Cupón</a>
+
+    {% if cupones %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Descuento</th>
+                <th>Expiración</th>
+                <th>Activo</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cupon in cupones %}
+            <tr>
+                <td><strong>{{ cupon.codigo }}</strong></td>
+                <td>{{ cupon.descuento_porcentaje }}%</td>
+                <td>{{ cupon.fecha_expiracion|default:"Nunca" }}</td>
+                <td>{% if cupon.activo %}✅ Sí{% else %}❌ No{% endif %}</td>
+                <td>
+                    <a href="{% url 'actualizar_cupon_descuento' cupon.id %}" class="btn btn-warning">Editar</a>
+                    <a href="{% url 'borrar_cupon_descuento' cupon.id %}" class="btn btn-danger">Borrar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="alert alert-info" style="background: #d1ecf1; color: #0c5460;">
+        <p>No hay cupones de descuento registrados.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
