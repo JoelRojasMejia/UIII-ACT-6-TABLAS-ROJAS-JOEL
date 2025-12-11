@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <h2>➕ Agregar Nuevo Cupón de Descuento</h2>
+
+    {% if error %}
+        <div class="alert alert-danger" style="background: #f8d7da; color: #721c24;">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    <form method="post" action="{% url 'agregar_cupon_descuento' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_codigo" class="form-label">Código del Cupón:</label>
+            <input type="text" id="id_codigo" name="codigo" class="form-control" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="id_descuento" class="form-label">Descuento Porcentaje (Ej. 10.00):</label>
+            <input type="number" step="0.01" id="id_descuento" name="descuento_porcentaje" class="form-control" required min="0" max="100">
+        </div>
+
+        <div class="form-group">
+            <label for="id_expiracion" class="form-label">Fecha de Expiración (Opcional):</label>
+            <input type="date" id="id_expiracion" name="fecha_expiracion" class="form-control">
+        </div>
+
+        <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
+            <input type="checkbox" id="id_activo" name="activo" checked>
+            <label for="id_activo" class="form-label" style="margin-bottom: 0;">Activo</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Guardar Cupón</button>
+        <a href="{% url 'ver_cupones' %}" class="btn" style="background: #f8f9fa; color: #333;">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

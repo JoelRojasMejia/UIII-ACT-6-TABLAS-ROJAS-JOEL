@@ -1,0 +1,249 @@
+<!DOCTYPE html>   
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOUTIQUE - Sistema de Gestión</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+    
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #9b1c1c 0%, #5c0d0d 100%);
+            min-height: 100vh;
+            color: white; /* 🔥 TODO EL TEXTO BLANCO POR DEFAULT */
+        }
+    
+        .navbar {
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+        }
+    
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #f5a623;
+            text-decoration: none;
+        }
+    
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+    
+        .nav-item {
+            position: relative;
+        }
+    
+        .nav-link {
+            text-decoration: none;
+            color: #f5f5f5;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+    
+        .nav-link:hover {
+            background: #d80032;
+            color: white;
+        }
+    
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background: #222222;
+            min-width: 200px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-radius: 10px;
+            padding: 0.5rem 0;
+            z-index: 1000;
+        }
+    
+        .dropdown-menu a {
+            display: block;
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            color: #f5f5f5;
+            transition: all 0.3s ease;
+        }
+    
+        .dropdown-menu a:hover {
+            background: #9b1c1c;
+            color: white;
+        }
+    
+        .nav-item:hover .dropdown-menu {
+            display: block;
+        }
+    
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+    
+        .card {
+            background: rgba(0, 0, 0, 0.75);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 2rem;
+            color: white; /* 🔥 Asegura texto blanco en las tarjetas */
+        }
+    
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+    
+        .btn-primary {
+            background: #9b1c1c;
+            color: white;
+        }
+    
+        .btn-primary:hover {
+            background: #d80032;
+            transform: translateY(-2px);
+        }
+    
+        .btn-danger {
+            background: #d80032;
+            color: white;
+        }
+    
+        .btn-danger:hover {
+            background: #9b1c1c;
+        }
+    
+        .btn-warning {
+            background: #f5a623;
+            color: white;
+        }
+    
+        .btn-warning:hover {
+            background: #d87f3a;
+        }
+    
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            color: white; /* 🔥 texto blanco en tablas */
+        }
+    
+        .table th,
+        .table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+            color: white; /* 🔥 blancos los th y td */
+        }
+    
+        .table th {
+            background: #333;
+            font-weight: 600;
+        }
+    
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+    
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #f5f5f5;
+        }
+    
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            background: #222;
+            color: white; /* 🔥 texto blanco dentro de inputs */
+        }
+    
+        .form-control:focus {
+            outline: none;
+            border-color: #9b1c1c;
+        }
+    
+        .alert {
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            color: white; /* 🔥 texto blanco */
+        }
+    
+        .alert-success {
+            background: #155724;
+            border: 1px solid #0f3e1f;
+        }
+    
+        .home-hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: white;
+        }
+    
+        .home-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+    
+        .home-hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            color: white;
+        }
+    </style>
+    
+</head>
+<body>
+    {% include 'navbar.html' %}
+    
+    <div class="container">
+        {% block content %}
+        <div class="home-hero">
+            <h1>Bienvenido a AZR BOUTIQUE</h1>
+            <p>Sistema de Gestión de Usuarios y Productos</p>
+            <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+                <a href="{% url 'ver_usuarios' %}" class="btn btn-primary">Gestionar Usuarios</a>
+                <a href="{% url 'ver_productos' %}" class="btn btn-primary">Gestionar Productos</a>
+                <a href="{% url 'catalogo_productos' %}" class="btn btn-primary">Ver Catálogo</a>
+                <a href="{% url 'ver_metodos_pago' %}" class="btn btn-primary">Métodos de Pago</a>
+                <a href="{% url 'ver_cupones' %}" class="btn btn-primary">Cupones</a>
+                <a href="{% url 'ver_pedidos' %}" class="btn btn-primary">Pedidos</a>
+            </div>
+        </div>
+        {% endblock %}
+    </div>
+</body>
+</html>

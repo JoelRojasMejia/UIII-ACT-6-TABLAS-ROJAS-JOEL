@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <h2 style="color: #ff4d94; margin-bottom: 2rem;">Actualizar Usuario</h2>
+    
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label class="form-label">Nombre Completo</label>
+            <input type="text" name="nombre" class="form-control" value="{{ usuario.nombre }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" name="email" class="form-control" value="{{ usuario.email }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Teléfono</label>
+            <input type="text" name="telefono" class="form-control" value="{{ usuario.telefono }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Dirección</label>
+            <textarea name="direccion" class="form-control" rows="3" required>{{ usuario.direccion }}</textarea>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Tipo de Usuario</label>
+            <select name="tipo_usuario" class="form-control" required>
+                <option value="cliente" {% if usuario.tipo_usuario == 'cliente' %}selected{% endif %}>Cliente</option>
+                <option value="vendedor" {% if usuario.tipo_usuario == 'vendedor' %}selected{% endif %}>Vendedor</option>
+                <option value="administrador" {% if usuario.tipo_usuario == 'administrador' %}selected{% endif %}>Administrador</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                <input type="checkbox" name="activo" {% if usuario.activo %}checked{% endif %}>
+                <span class="form-label" style="margin: 0;">Usuario Activo</span>
+            </label>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Actualizar Usuario</button>
+        <a href="{% url 'ver_usuarios' %}" class="btn" style="background: #6c757d; color: white; margin-left: 1rem;">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

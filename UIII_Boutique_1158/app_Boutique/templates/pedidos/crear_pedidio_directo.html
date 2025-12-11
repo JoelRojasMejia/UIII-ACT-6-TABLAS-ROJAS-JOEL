@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <h2>Crear Pedido - {{ producto.nombre }}</h2>
+    
+    {% if error %}
+        <div class="alert" style="background: #ffeaa7; color: #2d3436; border: 1px solid #fdcb6e;">
+            {{ error }}
+        </div>
+    {% endif %}
+    
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+        <div>
+            <h3>Información del Producto</h3>
+            {% if producto.imagen %}
+                <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" style="width: 100%; border-radius: 10px; margin-bottom: 1rem;">
+            {% endif %}
+            <p><strong>Nombre:</strong> {{ producto.nombre }}</p>
+            <p><strong>Precio:</strong> ${{ producto.precio }}</p>
+            <p><strong>Stock disponible:</strong> 
+                <span style="color: {% if producto.stock < 5 %}#e74c3c{% else %}#2ecc71{% endif %};">
+                    {{ producto.stock }} unidades
+                </span>
+            </p>
+            <p><strong>Categoría:</strong> {{ producto.get_categoria_display }}</p>
+        </div>
+        
+        <div>
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label class="form-label">Seleccionar Cliente *</label>
+                    <select name="usuario_id" class="form-control" required>
+                        <option value="">Seleccione un cliente</option>
+                        {% for usuario in usuarios %}
+                            <option value="{{ usuario.id }}">{{ usuario.nombre }} - {{ usuario.email }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Dirección de Envío *</label>
+                    <textarea name="direccion" class="form-control" rows="3" placeholder="Ingrese la dirección completa de envío" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Cantidad *</label>
+                    <input type="number" name="cantidad" class="form-control" value="1" min="1" max="{{ producto.stock }}" required>
+                    <small>Máximo disponible: {{ producto.stock }} unidades</small>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button type="submit" class="btn btn-primary">Crear Pedido</button>
+                    <a href="{% url 'catalogo_productos' %}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

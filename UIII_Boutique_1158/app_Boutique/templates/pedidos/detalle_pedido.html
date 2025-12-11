@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card" style="padding: 2rem;">
+
+    <!-- Botón para volver a la lista de pedidos -->
+    <a href="{% url 'ver_pedidos' %}" 
+       class="btn btn-secondary" 
+       style="margin-bottom: 1rem;">
+        ← Volver a pedidos
+    </a>
+
+    <h2>Detalle del Pedido #{{ pedido.id_pedido }}</h2>
+
+    <p><strong>Cliente:</strong> {{ pedido.id_usuario }}</p>
+    <p><strong>Fecha:</strong> {{ pedido.fecha|date:"d/m/Y" }}</p>
+    <p><strong>Total:</strong> ${{ pedido.total }}</p>
+
+    <h3 style="margin-top: 2rem;">Productos:</h3>
+
+    <ul>
+        {% for item in pedido.itempedido_set.all %}
+            <li>{{ item.producto.nombre }} — <strong>x{{ item.cantidad }}</strong></li>
+        {% empty %}
+            <li>No hay productos en este pedido.</li>
+        {% endfor %}
+    </ul>
+
+</div>
+{% endblock %}
